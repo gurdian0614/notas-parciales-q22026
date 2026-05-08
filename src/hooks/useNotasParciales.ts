@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Parciales, NombreParcial } from "../types/Parciales";
 
-export const useNotasParciales = () => {
+const useNotasParciales = () => {
     const objParciales: Parciales = {
         parcial1: "",
         parcial2: "",
@@ -21,4 +21,43 @@ export const useNotasParciales = () => {
         }
         return MAX_P3;
     }
+
+    const calcularTotal = useCallback(() => {
+        const p1 = Number(nota.parcial1) || 0;
+        const p2 = Number(nota.parcial2) || 0;
+        const p3 = Number(nota.parcial3) || 0;
+
+        return p1 + p2 + p3;
+    }, [nota.parcial1, nota.parcial2, nota.parcial3]);
+
+    useEffect(() => {
+        setNota((prev) => ({
+            ...prev,
+            total: calcularTotal(),
+        }));
+    }, [calcularTotal]);
+
+    const handleCambiarNota = (nombreParcial: NombreParcial, valor: string): void => {
+        const max = obtenerNotaParcialMaxima(nombreParcial);
+        const numValor = Number(valor);
+
+        if (isNaN(numValor) || numValor < 0 || numValor > max) {
+            return;
+        }
+
+        setNota((prev) => ({
+            ...prev,
+            [nombreParcial]: valor,
+        }));
+    }
+
+    return {
+        nota,
+        handleCambiarNota,
+        obtenerNotaParcialMaxima,
+        MAX_TOTAL,
+        PASS_SCORE,
+    }
 }
+
+export default useNotasParciales;
