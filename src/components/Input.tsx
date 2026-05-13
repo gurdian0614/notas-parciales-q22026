@@ -1,15 +1,13 @@
 import type {InputProps} from "../types/InputProps";
 
 const Input: React.FC<InputProps> = ({label, maxPoints, value, name, onChange}) => {
-    const isInvalid: boolean = value !== "" && value > maxPoints;
-
     return (
-        <div>
-            <label>
+        <div className="p-4 bg-white border border-gray-100 shadow-lg rounded-xl transition duration-300">
+            <label className="block text-lg font-bold text-gray-700 mb-2">
                 {label}
             </label>
 
-            <p>
+            <p className="text-sm text-gray-500 mb-3">
                 Max: {maxPoints} pts
             </p>
 
@@ -20,6 +18,7 @@ const Input: React.FC<InputProps> = ({label, maxPoints, value, name, onChange}) 
                 min={0}
                 max={maxPoints}
                 placeholder={`0 - ${maxPoints}`} 
+                className="w-full border-2 rounded-lg p-3 text-3xl font-extrabold text-center font-mono transition duration-150 border-blue-300 focus:border-blue-500 focus:ring-blue-500 text-gray-800"
             />
         </div>
     );
